@@ -17,19 +17,25 @@
       </b-field>
       <b-button @click="createEvent">Create event</b-button>
     </div>
+    <div class="added-fights">
+      <div v-for="(fight, i) in fights" :key="i">
+        <h3>Fight {{ i + 1 }}</h3>
+        <p>{{ fight.f1 }} v {{ fight.f2 }}</p>
+      </div>
+    </div>
     <div>
-      <h2>Add fights to event</h2>
+      <h2></h2>
       <div>
-        <div class="card" v-for="(fight, i) in fights" :key="i">
+        <div class="card">
           <div class="card-content">
-            <p class="title">Fight {{ i + 1 }}</p>
+            <h2 class="title">Add fights to event</h2>
             <div class="fight__names">
               <b-field label="Fighter 1">
-                <b-input v-model="fights[i].f1"></b-input>
+                <b-input v-model="newFighters.f1"></b-input>
               </b-field>
               <span>v</span>
               <b-field label="Fighter 2">
-                <b-input v-model="fights[i].f2"></b-input>
+                <b-input v-model="newFighters.f2"></b-input>
               </b-field>
             </div>
           </div>
@@ -48,19 +54,18 @@ export default {
       name: '',
       datetime: null,
       locale: 'en-CA',
-      fights: [
-        {
-          f1: '',
-          f2: '',
-        },
-      ],
+      newFighters: {
+        f1: '',
+        f2: '',
+      },
+      fights: [],
     };
   },
   methods: {
     addFight() {
       this.fights.push({
-        f1: '',
-        f2: '',
+        f1: this.newFighters.f1,
+        f2: this.newFighters.f2,
       });
     },
     async createEvent() {
@@ -82,6 +87,7 @@ export default {
 .fight__names {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 30px;
 }
 
