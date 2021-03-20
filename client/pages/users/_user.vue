@@ -15,7 +15,7 @@ export default {
       user: null,
     };
   },
-  async beforeMount() {
+  async fetch() {
     const username = this.$route.params.user;
 
     try {

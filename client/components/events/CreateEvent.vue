@@ -20,7 +20,7 @@
     <div class="added-fights">
       <div v-for="(fight, i) in fights" :key="i">
         <h3>Fight {{ i + 1 }}</h3>
-        <p>{{ fight.f1 }} v {{ fight.f2 }}</p>
+        <p>{{ fight.fighter1 }} v {{ fight.fighter2 }}</p>
       </div>
     </div>
     <div>
@@ -64,8 +64,8 @@ export default {
   methods: {
     addFight() {
       this.fights.push({
-        f1: this.newFighters.f1,
-        f2: this.newFighters.f2,
+        fighter1: this.newFighters.f1,
+        fighter2: this.newFighters.f2,
       });
     },
     async createEvent() {
@@ -73,8 +73,12 @@ export default {
         const res = await this.$axios.$post('http://localhost:8000/events', {
           name: this.name,
           datetime: this.datetime,
+          fights: this.fights,
         });
         console.log(res);
+        this.$router.push({
+          path: `/events/${res._id}`,
+        });
       } catch (e) {
         console.log(e);
       }

@@ -60,7 +60,6 @@ app.get('/users/:username', (req, res) => {
 	const username = req.params.username;
 	User.find({ username: username }, 'username email createdAt')
 		.then((result) => {
-			console.log(result);
 			res.send(result);
 		})
 		.catch((err) => {
@@ -70,10 +69,10 @@ app.get('/users/:username', (req, res) => {
 });
 
 app.post('/events', (req, res) => {
-	console.log(req.body);
 	const event = new Event({
 		name: req.body.name,
 		datetime: req.body.datetime,
+		fights: req.body.fights,
 	});
 
 	event
@@ -84,4 +83,28 @@ app.post('/events', (req, res) => {
 		.catch((e) => {
 			console.log(e);
 		});
+});
+
+app.get('/events/:id', (req, res) => {
+	const id = req.params.id;
+	Event.find({ _id: id }, '_id name datetime fights')
+		.then((result) => {
+			res.send(result);
+		})
+		.catch((err) => {
+			console.log(err);
+			res.status(404).send('Event does not exist');
+		});
+});
+
+app.post('/events/:id', (req, res) => {
+	const id = req.params.id;
+	const updatedEvent = req.body;
+
+	Event.findOneAndUpdate({ _id: id }, updatedEvent, {
+		new: true,
+	}).then((updatedItem) => {
+		console.log(updatedItem);
+		res.send(updatedItem);
+	});
 });
